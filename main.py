@@ -30,6 +30,7 @@ def root():
 @app.post("/predict")
 def predict_spam(email: EmailRequest):
     full_text = f"Subject: {email.subject} {email.body}"
+    prediction = model.predict([full_text])[0]
     probability = model.predict_proba([full_text])[0].tolist()
     
     return {"prediction": prediction,"probability":probability}
