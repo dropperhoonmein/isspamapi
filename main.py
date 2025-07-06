@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pickle
 from preprocessor import PreprocessedText
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load the trained model
 with open('trained_pipeline-0.1.0.sav', 'rb') as f:
@@ -14,6 +15,13 @@ class EmailRequest(BaseModel):
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
